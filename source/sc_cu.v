@@ -13,27 +13,28 @@ module sc_cu (op, func, z, wmem, wreg, regrt, m2reg, aluc, shift,
       
    //  please complete the deleted code.
    
-   wire i_and =  
-   wire i_or  = 
+   wire i_and = r_type&func[5]&~func[4]&~func[3]&func[2]&~func[1]&~func[0];//100100
+   wire i_or  = r_type&func[5]&~func[4]&~func[3]&func[2]&~func[1]&func[0];//100101
 
-   wire i_xor = 
-   wire i_sll = 
-   wire i_srl = 
-   wire i_sra = 
-   wire i_jr  = 
+   wire i_xor = r_type&func[5]&~func[4]&~func[3]&func[2]&func[1]&~func[0];//100110
+   wire i_sll = r_type&~func[5]&~func[4]&~func[3]&~func[2]&~func[1]&~func[0];//000000
+   wire i_srl = r_type&~func[5]&~func[4]&~func[3]&~func[2]&func[1]&~func[0];//000010
+   wire i_sra = r_type&~func[5]&~func[4]&~func[3]&~func[2]&func[1]&func[0];//000011
+   wire i_jr  = r_type&~func[5]&~func[4]&func[3]&~func[2]&~func[1]&~func[0];//001000
                 
    wire i_addi = ~op[5] & ~op[4] &  op[3] & ~op[2] & ~op[1] & ~op[0]; //001000
    wire i_andi = ~op[5] & ~op[4] &  op[3] &  op[2] & ~op[1] & ~op[0]; //001100
    
-   wire i_ori  =         // complete by yourself.
-   wire i_xori =   
-   wire i_lw   =   
-   wire i_sw   = 
-   wire i_beq  = 
-   wire i_bne  = 
-   wire i_lui  = 
-   wire i_j    = 
-   wire i_jal  = 
+	// complete by yourself.
+   wire i_ori  = ~op[5] & ~op[4] &  op[3] &  op[2] & ~op[1] &  op[0]; //001101
+   wire i_xori = ~op[5] & ~op[4] &  op[3] &  op[2] &  op[1] & ~op[0]; //001110
+   wire i_lw   =  op[5] & ~op[4] & ~op[3] & ~op[2] &  op[1] &  op[0]; //100011
+   wire i_sw   =  op[5] & ~op[4] &  op[3] & ~op[2] &  op[1] &  op[0]; //101011
+   wire i_beq  = ~op[5] & ~op[4] & ~op[3] &  op[2] & ~op[1] & ~op[0]; //000100
+   wire i_bne  = ~op[5] & ~op[4] & ~op[3] &  op[2] & ~op[1] &  op[0]; //000101
+   wire i_lui  = ~op[5] & ~op[4] &  op[3] &  op[2] &  op[1] &  op[0]; //001111
+   wire i_j    = ~op[5] & ~op[4] & ~op[3] & ~op[2] &  op[1] & ~op[0]; //000010
+   wire i_jal  = ~op[5] & ~op[4] & ~op[3] & ~op[2] &  op[1] &  op[0]; //000011
    
   
    assign pcsource[1] = i_jr | i_j | i_jal;
